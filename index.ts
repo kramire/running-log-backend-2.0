@@ -1,11 +1,10 @@
 import express from 'express';
+import router from './router';
 
 const PORT = '3000';
 
 const app = express();
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+app.use('/', router);
 
-app.listen(PORT, () => console.log('Example app listening on port 3000!'));
+app.listen(PORT, () => console.log(`Listening on port: ${PORT}`));
