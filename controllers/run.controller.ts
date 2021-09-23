@@ -1,41 +1,36 @@
 import { Request, Response } from 'express';
+import sequelize from '../models';
 
-export const getRun = (req: Request<{ id: string }>, res: Response) => {
+const Run = sequelize.models.Run;
+
+export const getRun = async (req: Request<{ id: string }>, res: Response) => {
   const { id } = req.params;
-  // findOne user by id
-  const run = {};
-  res.status(200).send(run);
+  try {
+    const run = await Run.findByPk(id);
+    res.status(200).send(run);
+  } catch (e: any) {
+    res.status(404).send(e.message);
+  }
 };
 
-export const saveRun = (req: Request, res: Response) => {
-  const { run } = req.body;
-  // save new user
-  const savedRun = {};
-  res.status(201).send(savedRun);
+export const updateRun = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const data = req.body;
+    await Run.update(data, { where: { id } });
+    const updatedRun = await Run.findByPk(id);
+    res.status(200).send(updatedRun);
+  } catch (e: any) {
+    res.status(404).send(e.message);
+  }
 };
 
-export const updateRun = (req: Request, res: Response) => {
-  const { id } = req.params;
-  const { data } = req.body;
-  // update user by id
-  const updatedRun = {};
-  res.status(201).send(updatedRun);
-};
-
-export const deleteRun = (req: Request, res: Response) => {
-  const { id } = req.params;
-  // delete run by id
-  res.status(201).send();
-};
-
-export const getDailyRuns = (req: Request, res: Response) => {
-  // const { id } = req.params;
-  // delete run by id
-  res.status(201).send();
-};
-
-export const getWeeklyRuns = (req: Request, res: Response) => {
-  // const { id } = req.params;
-  // delete run by id
-  res.status(201).send();
+export const deleteRun = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    await Run.destroy({ where: { id } });
+    res.status(204).send();
+  } catch (e: any) {
+    res.status(404).send(e.message);
+  }
 };
