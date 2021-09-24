@@ -2,15 +2,15 @@ import { Model, Sequelize, DataTypes } from 'sequelize';
 import { Unit } from './user.model';
 
 export type RunType =
-  | 'Speed'
-  | 'Distance'
-  | 'Tempo'
-  | 'Easy'
-  | 'Intervals'
-  | 'Hills'
-  | 'Recovery'
-  | 'Farlek'
-  | 'Progression';
+  | 'speed'
+  | 'distance'
+  | 'tempo'
+  | 'easy'
+  | 'intervals'
+  | 'hills'
+  | 'recovery'
+  | 'farlek'
+  | 'progression';
 
 interface RunInstance extends Model {
   distance: number;
@@ -28,7 +28,6 @@ const RunModel = (sequelize: Sequelize) =>
     distance: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      unique: true,
       defaultValue: 0
     },
     unit: {
